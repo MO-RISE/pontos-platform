@@ -1,0 +1,25 @@
+version: '3'
+services:
+
+  ### N2K bus
+  n2k:
+    build:
+      context: ./toolbox
+    restart: always
+    network_mode: "host"
+    command:
+      [
+        "socat UDP4-RECV:1457,reuseaddr STDOUT | tee >(timestamp >> raw_n2k.log) | analyzer -json | timestamp | canboat2pontos | tee -a pontos_n2k.log"
+      ]
+    volumes:
+      - /opt/recordings:/recordings
+    working_dir: /recordings
+
+  logrotate:
+    image: linkyard/logrotate:1.0.0
+    restart: always
+    environment:
+      - LOGROTATE_CRON=0 0 * * *
+    volumes:
+      - /opt/recordings:/logs
+      - ./logrotate.conf:/etc/logrotate.conf
