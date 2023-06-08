@@ -87,7 +87,7 @@ for line in sys.stdin:
         continue
 
     try:
-        data = json.loads(res.data)
+        data = json.loads(res["data"])
     except json.JSONDecodeError:
         logging.error(f"Failed to JSON decode data: {data}")
         continue

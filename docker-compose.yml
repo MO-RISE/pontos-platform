@@ -9,7 +9,7 @@ services:
     network_mode: "host"
     command:
       [
-        "socat UDP4-RECV:1457,reuseaddr STDOUT | tee >(timestamp >> raw_n2k.log) | analyzer -json | timestamp | canboat2pontos | tee -a pontos_n2k.log > /dev/null"
+        "socat UDP4-RECV:1457,reuseaddr STDOUT | tee >(timestamp >> raw_n2k.log) | analyzer -json | timestamp | tee -a canboat_n2k.log | canboat2pontos | tee -a pontos_n2k.log > /dev/null"
       ]
     volumes:
       - /opt/recordings:/recordings
