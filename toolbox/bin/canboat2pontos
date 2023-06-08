@@ -96,7 +96,7 @@ for line in sys.stdin:
         if handler := HANDLERS.get(pgn):
             for topic, value in handler(data):
                 payload = create_payload(res.timestamp, value)
-                sys.stdout.write(f"{topic} {payload}")
+                sys.stdout.write(f"{topic} {payload}\n")
 
             sys.stdout.flush()
         else:
