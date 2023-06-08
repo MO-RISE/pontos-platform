@@ -4,5 +4,5 @@ import sys
 import time
 
 for line in sys.stdin:
-    sys.stdout.write(f"{time.time()} {line}")
+    sys.stdout.write(f"{time.time():.6f} {line}")
     sys.stdout.flush()

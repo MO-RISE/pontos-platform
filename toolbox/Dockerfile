@@ -12,7 +12,7 @@ RUN mkdir canboat && \
     cd canboat && \
     make
 
-FROM debian:bullseye-slim
+FROM python:3.11-slim-bullseye
 
 RUN apt-get update && apt-get install -y \
     moreutils \
@@ -23,8 +23,10 @@ RUN apt-get update && apt-get install -y \
     jo \
     && rm -rf /var/lib/apt/lists/*
 
+RUN pip3 install --no-cache parse==1.19.0 mqtt-cli==0.2.0
+
 COPY --from=BUILD --chmod=555 /canboat/rel/linux-x86_64/* /usr/local/bin/
 COPY --chmod=555 ./bin/* /usr/local/bin/
 COPY bash-aliases /bash-aliases
 
-ENTRYPOINT ["/bin/bash", "--init-file=/bash-aliases", "-l", "-c"]
+ENTRYPOINT ["/bin/bash", "--init-file", "/bash-aliases", "-l", "-c"]

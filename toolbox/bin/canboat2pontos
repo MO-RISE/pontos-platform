@@ -3,8 +3,9 @@
 import sys
 import json
 import logging
-
 from typing import List, Dict, Tuple, Any
+
+from parse import compile
 
 def create_topic(tag: str, index: int=1, prefix: str="PONTOS"):
     return f"{prefix}/name_SD401Fredrika/{tag}/{index}"
@@ -75,25 +76,28 @@ HANDLERS = {
     129029: handler_129029,
 }
 
+PATTERN = compile("{timestamp} {data}")
 
 ## Processing loop
 
 for line in sys.stdin:
 
-    try:
-        timestamp, data = line.split()
-    except Exception as exc:
-        logging.error(f"Line {line} did not look as expected: '<timestamp> <canboat payload>'")
+    if not (res := PATTERN.parse(line)):
+        logging.error(f"Line {line} did not look as expected: '<timestamp> <canboat json output>'")
         continue
 
     try:
-        data = json.loads(data)
+        data = json.loads(res.data)
     except json.JSONDecodeError:
+        logging.error(f"Failed to JSON decode data: {data}")
         continue
 
-    if handler := HANDLERS.get(data["pgn"]):
-        for topic, value in handler(data):
-            payload = create_payload(timestamp, value)
-            sys.stdout.write(f"{topic} {payload}")
+    if pgn := data.get("pgn"):
+        if handler := HANDLERS.get(pgn):
+            for topic, value in handler(data):
+                payload = create_payload(res.timestamp, value)
+                sys.stdout.write(f"{topic} {payload}")
 
-        sys.stdout.flush()
+            sys.stdout.flush()
+        else:
+            logging.warning(f"No handler found for PGN: {pgn}")
