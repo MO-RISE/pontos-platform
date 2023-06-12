@@ -1,2 +1,2 @@
-# pontos-platform-fredrika
-Platform configuration for Fredrika
+# pontos-platform
+Base platform configuration for a generic Pontos vessel
