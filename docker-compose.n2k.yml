@@ -1,13 +1,22 @@
 version: '3'
 services:
 
-  source:
+  source_1:
     image: ghcr.io/mo-rise/porla:v0.2.1
     network_mode: host
     restart: always
     command:
       [
-        "socat UDP4-RECV:${YD_PORT},reuseaddr STDOUT | timestamp --epoch | to_bus 1"
+        "socat UDP4-RECV:${YD_PORT_1},reuseaddr STDOUT | timestamp --epoch | to_bus 1"
+      ]
+
+  source_2:
+    image: ghcr.io/mo-rise/porla:v0.2.1
+    network_mode: host
+    restart: always
+    command:
+      [
+        "socat UDP4-RECV:${YD_PORT_2:-70000},reuseaddr STDOUT | timestamp --epoch | to_bus 1"
       ]
 
   record_raw:
@@ -38,7 +47,7 @@ services:
     command: [ "from_bus 2 | record n2k_canboat.log" ]
 
   to_pontos:
-    image: ghcr.io/mo-rise/porla-pontos:v0.3.0
+    image: ghcr.io/mo-rise/porla-pontos:v0.4.0
     network_mode: host
     restart: always
     command:
