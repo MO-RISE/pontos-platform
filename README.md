@@ -9,7 +9,7 @@ Configuration of the setup is done in an accompanying `.env` file. An [`example.
 
 **Requirements:**
 
-* A [Yacht Device YDEN-02](https://www.yachtd.com/products/ethernet_gateway.html) or similar that outputs raw N2K frames (hex representation) over udp.
+* One (or several) [Yacht Device YDEN-02](https://www.yachtd.com/products/ethernet_gateway.html) or similar that outputs raw N2K frames (hex representation) over udp.
 
 **Functionality:**
 
