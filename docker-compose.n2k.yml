@@ -47,7 +47,7 @@ services:
     command: [ "from_bus 2 | record n2k_canboat.log" ]
 
   to_pontos:
-    image: ghcr.io/mo-rise/porla-pontos:v0.4.0
+    image: ghcr.io/mo-rise/porla-pontos:v0.4.1
     network_mode: host
     restart: always
     command:
