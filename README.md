@@ -15,7 +15,7 @@ Configuration of the setup is done in an accompanying `.env` file. An [`example.
 
 * Decodes raw N2K frames using [porla-nmea](https://github.com/MO-RISE/porla-nmea) (which in turn uses [canboat](https://github.com/canboat/canboat)) into JSON represenations.
 * Transforms canboat JSON structs into PONTOS format using [porla-pontos](https://github.com/MO-RISE/porla-pontos) and rate limits the data flow to 1Hz for every unique "tag".
-* Pushes PONTOS formatted data to pontos.ri.se using [porla-mqtt](https://github.com/MO-RISE/porla-mqtt).
+* Pushes PONTOS formatted data to pontos.ri.se using [porla-mqtt](https://github.com/MO-RISE/porla-mqtt), queuing data on disk if connectivity with ashore goes down.
 * Logs raw N2K frames, canboat JSON structs and PONTOS data to three separate log files.
 
 How-to:
@@ -38,7 +38,7 @@ You may have to use `sudo` depending on permissions.
 
 How-to:
 
-Ensure you have a proper `.env` file configured and
+Ensure you have a proper `.env` file configured and that the file permission on `logrotate.conf` is set to 644 and then
 ```
 docker compose -f docker-compose.logrotate.yml up -d
 ```

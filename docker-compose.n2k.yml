@@ -68,7 +68,9 @@ services:
     image: ghcr.io/mo-rise/porla-mqtt:v0.2.0
     network_mode: host
     restart: always
+    volumes:
+      - ./queue:/queue
     command:
       [
-        "from_bus 3 | mqtt --host pontos.ri.se --port 443 --transport websockets --protocol 5 --tls --user ${PONTOS_MQTT_USERNAME} --password ${PONTOS_MQTT_TOKEN} --clientid ${PONTOS_MQTT_CLIENT_ID}_n2k publish --line '{topic} {message}'"
+        "from_bus 3 | mqtt --host pontos.ri.se --port 443 --transport websockets --protocol 5 --tls --user ${PONTOS_MQTT_USERNAME} --password ${PONTOS_MQTT_TOKEN} --clientid ${PONTOS_MQTT_CLIENT_ID}_n2k publish --queue /queue --line '{topic} {message}'"
       ]
