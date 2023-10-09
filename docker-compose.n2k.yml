@@ -65,7 +65,7 @@ services:
     command: [ "from_bus 3 | record n2k_pontos.log" ]
 
   sink:
-    image: ghcr.io/mo-rise/porla-mqtt:v0.2.0
+    image: ghcr.io/mo-rise/porla-mqtt:v0.2.1
     network_mode: host
     restart: always
     volumes:
